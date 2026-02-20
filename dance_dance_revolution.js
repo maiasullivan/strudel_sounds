@@ -1,3 +1,7 @@
+// Dance Dance Revolution by me
+// By maia_sullivan
+// TBC
+
 setcps(16)
 
 $: note(`
