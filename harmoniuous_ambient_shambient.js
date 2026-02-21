@@ -5,7 +5,7 @@
 // Paste `document.querySelectorAll("canvas").forEach(c => c.style.opacity = “0.3` into browser console to see code above the visuals
 
 setcpm(30)
-let a =(slider(1, 0.7, 1.0))
+let a =(slider(0.7, 0.7, 1.0))
 stack(
   stack(
      s("bd bd bd [bd bd/2]").bank("concertmatemg1").delay("1.5").gain(a),
