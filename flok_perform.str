@@ -1,0 +1,46 @@
+setcpm(28)
+
+let a = 0.1 //e
+let c = 1.0  // f
+let d = 0.2 // 0-0.5
+let inv = 1 - (a * 0.5)
+
+setcpm(35)
+stack(
+  stack(
+    stack(
+      s("oh:0 ~ ~ oh:0 ~ ~ oh:0 ~".fast(2)).bank("tr909").gain(.35).decay(0.18),
+      s("white!16").decay(sine.fast(6).range(0.02, 0.18)).gain(.3).hpf(perlin.fast(1.5).range(2000, 8000)).swing(.1),
+    ).hush(), //c
+    stack(
+      s("bd!16").degradeBy(c).ribbon(32, 2).bank("tr909").n(irand(3).ribbon(150, 2)).speed(perlin.fast(0.5).range(0.9, 1.1)),
+      s("sd").bank("tr909").beat("4,12", 16)
+    ).dist(a).gain(0.4 + inv * 0.5),
+    s("sd:1!16?").degradeBy(0.78).bank("tr909").gain(perlin.fast(4).range(0.15, 0.35)).speed("0.7 | 0.85 | 1.1").ribbon(24, 3),
+    s("cp:2!16?").ribbon(20, 2).bank("tr909").gain(.25).delay(".2 | .3").delaytime("0.04 | 0.07").delayfeedback(0.2)
+  ).punchcard().hush() //b
+    .lpf(16000), //(cosine.range(800, 16000).slow(32)), //d
+  stack(
+    n("[1 <5 4> 3 7 <4 5>]*2").scale("c:major").sound("square").dist(0.5).lpf("<1000 2500 5000>").delay(0.4).gain(d),
+    chord("<C G D D>").voicing().sound("saw").lpf(2000).gain(0.35).hush() //a
+  )
+)
+
+// solarised dark  
+bpm = 56
+
+shape(2, 0.2, 0.8)
+  .mult(osc(100).kaleid(Math.PI*2))
+  .add(noise(10).scrollY(0,-0.05))
+  .color(
+    () => 0.05 + Math.abs(Math.sin(time * Math.PI)) * 0.15,
+    0.02,
+    () => 0.3 + Math.abs(Math.sin(time * Math.PI)) * 0.4
+  )
+  .add(src(o0).kaleid(100).thresh(0.2,0.8),0.5)
+  .modulateScale(noise(2), () => 0.1 + Math.abs(Math.sin(time * Math.PI)) * 0.3)
+  .modulateKaleid(noise(1),0.2)
+  .modulate(o0,0.05)
+  .brightness(-0.2)
+  .contrast(() => 1.4 + Math.abs(Math.sin(time * Math.PI)) * 0.8)
+  .out()
